@@ -20,7 +20,7 @@
 		vm.registerUser = function () {
 			vm.userData.confirmPassword = vm.userData.password;
 
-			userAccount.registerUser(vm.userData,
+			userAccount.registration.registerUser(vm.userData,
 				function (data) {
 					vm.confirmPassword = "";
 					vm.message = "... Registration successful";
@@ -28,7 +28,7 @@
 				},
 				function (response) {
 					vm.isLoggedIn = false;
-					vm.message = response.statusTest + "\r\n";
+					vm.message = response.statusText + "\r\n";
 					if (response.data.exceptionMessage)
 						vm.message += response.data.exceptionMessage;
 
@@ -41,7 +41,28 @@
 		};
 
 		vm.login = function () {
+			vm.userData.grant_type = "password";
+			vm.userData.userName = vm.userData.email;
 
+			userAccount.login.loginUser(vm.userData,
+				function (data) {
+					vm.isLoggedIn = true;
+					vm.message = "";
+					vm.password = "";
+					vm.token = data.access_token;
+				},
+				function (response) {
+					vm.password = "";
+					vm.isLoggedIn = false;
+					vm.message = response.statusText + "\r\n";
+					if (response.data.exceptionMessage) {
+						vm.message += response.data.exceptionMessage;
+					}
+
+					if (response.data.error) {
+						vm.message += response.data.error;
+					}
+				});
 		};
 	}
 }());
