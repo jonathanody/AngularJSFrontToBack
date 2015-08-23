@@ -38,6 +38,13 @@
 					},
 					function (response) {
 						vm.message = response.statusText + "\r\n";
+
+						if (response.data.modelState) {
+							for (var key in response.data.modelState) {
+								vm.message += response.data.modelState[key] + "\r\n";
+							}
+						}
+
 						if (response.data.exceptionMessage)
 							vm.message += response.data.exceptionMessage;
 					});
@@ -50,6 +57,13 @@
 					},
 					function (response) {
 						vm.message = response.statusText + "\r\n";
+
+						if (response.data.modelState) {
+							for (var key in response.data.modelState) {
+								vm.message += response.data.modelState[key] + "\r\n";
+							}
+						}
+
 						if (response.data.exceptionMessage)
 							vm.message += response.data.exceptionMessage;
 					});
